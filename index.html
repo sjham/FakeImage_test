@@ -1,0 +1,251 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>This Photo Is an A.I. Fake. Can You Tell?</title>
+    <style>
+        :root {
+            --bg-color: #f7f7f7;
+            --text-color: #333;
+            --hint-bg: rgba(255, 255, 255, 0.95);
+        }
+        * { box-sizing: border-box; }
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: 'NYT Imperial', Georgia, 'Times New Roman', Times, serif;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            overflow-x: hidden;
+        }
+        header {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 80px 20px 40px;
+            text-align: center;
+        }
+        h1 {
+            font-family: 'NYT Cheltenham', 'Helvetica Neue', Arial, sans-serif;
+            font-size: 2.8rem;
+            font-weight: 700;
+            margin-bottom: 20px;
+            line-height: 1.2;
+            color: #000;
+        }
+        .subtitle {
+            font-size: 1.25rem;
+            line-height: 1.7;
+            color: #555;
+            margin-bottom: 20px;
+            font-family: 'NYT Imperial', Georgia, serif;
+        }
+        .scrolly-container {
+            position: relative;
+            display: flex;
+            align-items: flex-start;
+        }
+        .sticky-visual {
+            position: sticky;
+            top: 0;
+            width: 100vw;
+            height: 100vh;
+            overflow: hidden;
+            background: #111;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 1;
+        }
+        .sticky-visual img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 1s cubic-bezier(0.25, 1, 0.5, 1);
+            transform-origin: center center;
+            cursor: zoom-in;
+            opacity: 0.95;
+        }
+        .sticky-visual.zoomed img {
+            cursor: zoom-out;
+            transform: scale(2.5) !important;
+        }
+        .image-caption {
+            position: absolute;
+            bottom: 20px;
+            left: 20px;
+            color: rgba(255, 255, 255, 0.6);
+            font-family: 'Helvetica Neue', Arial, sans-serif;
+            font-size: 0.85rem;
+            z-index: 2;
+            letter-spacing: 0.5px;
+        }
+        .scroll-text {
+            position: relative;
+            z-index: 3;
+            width: 100%;
+            max-width: 600px;
+            margin: -100vh auto 0;
+            padding: 0 20px;
+            pointer-events: none;
+        }
+        .step {
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .step-content {
+            background: var(--hint-bg);
+            padding: 30px;
+            border-radius: 4px;
+            box-shadow: 0 8px 30px rgba(0,0,0,0.15);
+            border-top: 3px solid #000;
+            pointer-events: auto;
+            max-width: 450px;
+            font-family: 'Helvetica Neue', Arial, sans-serif;
+            font-size: 1.15rem;
+            line-height: 1.6;
+            opacity: 0;
+            transition: opacity 0.5s ease, transform 0.5s ease;
+            transform: translateY(30px);
+            color: #111;
+        }
+        .step.is-active .step-content {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        .step-number {
+            font-weight: 700;
+            color: #d0021b;
+            font-size: 0.85rem;
+            text-transform: uppercase;
+            letter-spacing: 1.2px;
+            margin-bottom: 12px;
+            display: block;
+        }
+        footer {
+            background: #fff;
+            padding: 60px 20px;
+            text-align: center;
+            font-family: 'Helvetica Neue', Arial, sans-serif;
+            font-size: 0.9rem;
+            color: #777;
+            border-top: 1px solid #ddd;
+            position: relative;
+            z-index: 4;
+        }
+        
+        /* Mobile adjustments */
+        @media (max-width: 768px) {
+            h1 { font-size: 2.2rem; }
+            .subtitle { font-size: 1.1rem; }
+            .step-content { padding: 20px; font-size: 1.05rem; }
+            .sticky-visual img { object-fit: contain; }
+        }
+    </style>
+</head>
+<body>
+
+<header>
+    <h1>This Photo Is an A.I. Fake. Can You Tell?</h1>
+    <p class="subtitle">이재명 대통령이 길거리에서 노인과 악수하는 장면처럼 보이지만, 실제로는 AI가 만든 이미지입니다. 자세히 살펴보면 오류를 발견할 수 있습니다.</p>
+</header>
+
+<section class="scrolly-container">
+    <div class="sticky-visual" id="visual-container">
+        <!-- AI 생성 이미지 교체 권장: src="실제 이미지 경로" -->
+        <img id="ai-image" src="https://images.unsplash.com/photo-1517646287270-a56b6301389c?ixlib=rb-4.0.3&auto=format&fit=crop&w=2000&q=80" alt="AI-generated placeholder of a crowded street">
+        <div class="image-caption">AI-generated image · Educational purposes only</div>
+    </div>
+
+    <div class="scroll-text">
+        <div class="step" data-scale="1" data-x="0" data-y="0">
+            <!-- 초기 뷰 -->
+        </div>
+        <div class="step" data-scale="1.6" data-x="-15%" data-y="-10%">
+            <div class="step-content">
+                <span class="step-number">Hint 1</span>
+                <strong>원근법과 배경 선이 자연스럽지 않음</strong><br>건물과 도로의 소실점이 일치하지 않으며, 배경의 직선들이 부자연스럽게 휘어져 있습니다.
+            </div>
+        </div>
+        <div class="step" data-scale="2.5" data-x="10%" data-y="25%">
+            <div class="step-content">
+                <span class="step-number">Hint 2</span>
+                <strong>악수하는 손의 손가락 개수나 접촉 부분이 부자연스러움</strong><br>손가락이 6개이거나, 맞잡은 두 손이 서로 녹아내린 것처럼 경계가 불분명합니다.
+            </div>
+        </div>
+        <div class="step" data-scale="2.0" data-x="-5%" data-y="-25%">
+            <div class="step-content">
+                <span class="step-number">Hint 3</span>
+                <strong>짜증난 표정과 시선 처리가 어색함</strong><br>악수를 나누는 대상과 시선이 전혀 맞지 않으며, 감정선의 불일치가 발생합니다.
+            </div>
+        </div>
+        <div class="step" data-scale="1.8" data-x="25%" data-y="-5%">
+            <div class="step-content">
+                <span class="step-number">Hint 4</span>
+                <strong>피부 질감과 조명이 불일치함</strong><br>주변의 태양광 방향과 인물 얼굴에 드리워진 그림자 방향이 다르고 피부가 지나치게 매끄럽습니다.
+            </div>
+        </div>
+        <div class="step" data-scale="2.2" data-x="-25%" data-y="10%">
+            <div class="step-content">
+                <span class="step-number">Hint 5</span>
+                <strong>옷 주름이나 배경 간판 글자가 깨짐</strong><br>간판에 적힌 문자가 실제 언어가 아닌 무의미한 기호의 나열로 나타납니다.
+            </div>
+        </div>
+        <div class="step" data-scale="1.7" data-x="0%" data-y="35%">
+            <div class="step-content">
+                <span class="step-number">Hint 6</span>
+                <strong>인물과 바닥 그림자가 일치하지 않음</strong><br>서 있는 위치와 광원에 비해 바닥 그림자가 생략되어 있거나 형태가 크게 왜곡되었습니다.
+            </div>
+        </div>
+        <div class="step" data-scale="1" data-x="0" data-y="0">
+            <!-- 아웃트로 뷰 -->
+        </div>
+    </div>
+</section>
+
+<footer>
+    <p>이 이미지는 AI로 생성되었으며 실제 사건이 아닙니다. 교육 목적으로 제작되었습니다.</p>
+</footer>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function() {
+        const steps = document.querySelectorAll(".step");
+        const aiImage = document.getElementById("ai-image");
+        const visualContainer = document.getElementById("visual-container");
+
+        // 클릭 시 전체화면 확대/축소
+        visualContainer.addEventListener("click", function() {
+            this.classList.toggle("zoomed");
+        });
+
+        // 스크롤 감지 Observer (50% 이상 보일 때 발동)
+        const observerOptions = {
+            root: null,
+            rootMargin: "-20% 0px -20% 0px", // 화면 중앙부 근처에서 트리거되도록 조정
+            threshold: 0.5 
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    steps.forEach(s => s.classList.remove("is-active"));
+                    entry.target.classList.add("is-active");
+
+                    if(!visualContainer.classList.contains("zoomed")) {
+                        const scale = entry.target.getAttribute("data-scale") || 1;
+                        const tx = entry.target.getAttribute("data-x") || "0%";
+                        const ty = entry.target.getAttribute("data-y") || "0%";
+                        aiImage.style.transform = `scale(${scale}) translate(${tx}, ${ty})`;
+                    }
+                }
+            });
+        }, observerOptions);
+
+        steps.forEach(step => observer.observe(step));
+    });
+</script>
+
+</body>
+</html>
